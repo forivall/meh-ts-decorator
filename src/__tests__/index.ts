@@ -2,7 +2,26 @@
 
 import test from 'ava'
 
-import decorator, {WrappedFunction, keyToName, proxied, wrap} from '..'
+import decorator, {WrappedFunction, keyToName, proxied, wrap, wraps} from '..'
+
+test('wraps', (t) => {
+  t.plan(4)
+
+  let i = 0
+  function inner() {
+    t.is(i++, 1)
+  }
+  function outer() {
+    t.is(i++, 0)
+    inner()
+    t.is(i++, 2)
+  }
+  const wrapped = wraps(inner, outer, 'outer')
+
+  t.is(wrapped.name, 'inner (outer)')
+
+  wrapped()
+})
 
 test('wrap', (t) => {
   t.plan(4)

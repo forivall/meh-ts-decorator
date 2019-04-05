@@ -21,24 +21,33 @@ export default function decorator<
 export function wrap<
   F extends (...args: any[]) => any,
   W extends (fn: F, ...rest: any[]) => F
->(wrapper: W, inner: F, ...wrapperArgs: Rest1Type<W>): F & {inner: F} {
+>(wrapper: W, inner: F, ...wrapperArgs: Rest1Type<W>): WrappedFunction<F> {
   return _wrap(wrapper, inner, wrapperArgs)
+}
+
+export function wraps<F extends (...args: any[]) => any>(
+  inner: F,
+  outer: F,
+  wrapperName = '<wrapped>',
+): WrappedFunction<F> {
+  Object.defineProperty(outer, 'name', {
+    value: `${inner.name} (${wrapperName})`,
+  })
+  Object.defineProperty(outer, 'inner', {
+    enumerable: false,
+    value: inner,
+  })
+  return outer as WrappedFunction<F>
 }
 
 function _wrap<
   F extends (...args: unknown[]) => unknown,
   W extends (fn: F, ...rest: unknown[]) => F
->(wrapper: W, inner: F, wrapperArgs: Rest1Type<W>): F & {inner: F} {
+>(wrapper: W, inner: F, wrapperArgs: Rest1Type<W>): WrappedFunction<F> {
   const wrapped =
     wrapperArgs.length > 0 ? wrapper(inner, ...wrapperArgs) : wrapper(inner)
-  Object.defineProperty(wrapped, 'name', {
-    value: `${inner.name} (${wrapper.name})`,
-  })
-  Object.defineProperty(wrapped, 'inner', {
-    enumerable: false,
-    value: inner,
-  })
-  return wrapped as F & {inner: F}
+
+  return wraps(inner, wrapped, wrapper.name)
 }
 
 const symRe = /^Symbol\((.*)\)$/
