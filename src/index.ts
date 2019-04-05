@@ -1,13 +1,6 @@
-import {Rest1Type} from './types'
+import {Decorator, Rest1Type, WrappedFunction} from './types'
 
-export type Decorator = (
-  cls: unknown,
-  name: keyof any,
-  descriptor: PropertyDescriptor,
-) => PropertyDescriptor
-export type WrappedFunction<
-  F extends (...args: unknown[]) => unknown = (...args: unknown[]) => unknown
-> = F & {inner: F}
+export {Decorator, WrappedFunction}
 
 // tslint:disable-next-line: no-any typedef
 export default function decorator<
