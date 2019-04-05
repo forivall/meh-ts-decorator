@@ -6,9 +6,7 @@
       "path": "./src"
     }
   ],
-  "include": [
-    "./**/*"
-  ],
+  "include": [],
   "exclude": [
     "src/**/*"
   ]
