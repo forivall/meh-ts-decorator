@@ -1,7 +1,8 @@
 /* tslint:disable: typedef */
 
 import test from 'ava'
-import decorator, {wrap, proxied, WrappedFunction, keyToName} from '..';
+
+import decorator, {WrappedFunction, keyToName, proxied, wrap} from '..'
 
 test('wrap', (t) => {
   t.plan(4)
@@ -24,6 +25,31 @@ test('wrap', (t) => {
   t.is(wrapped.name, 'inner (outer)')
 
   wrapped()
+})
+
+test('wrap with args', (t) => {
+  t.plan(6)
+
+  let i = 0
+  function outer(fn: (innerArg: string) => void, outerArg: string) {
+    t.is(outerArg, 'outerArg')
+    return (innerArg: string) => {
+      t.is(i++, 0)
+      fn(innerArg)
+      t.is(i++, 2)
+    }
+  }
+
+  function inner(innerArg: string) {
+    t.is(i++, 1)
+    t.is(innerArg, 'innerArg')
+  }
+
+  const wrapped = wrap(outer, inner, 'outerArg')
+
+  t.is(wrapped.name, 'inner (outer)')
+
+  wrapped('innerArg')
 })
 
 test('decorator', (t) => {
@@ -54,7 +80,7 @@ test('decorator', (t) => {
   const inst = new Inner()
   inst.inner()
   expectedInner = 3
-  ; (inst.inner as WrappedFunction).inner.call(inst)
+  ;(inst.inner as WrappedFunction).inner.call(inst)
 })
 
 test('decorator symbol', (t) => {
@@ -105,17 +131,14 @@ test('proxied', (t) => {
   }
   // tslint:disable-next-line: no-empty-interface
   interface Outer extends Inner {}
-  Outer.prototype.inner = proxied(Inner, 'inner', function (this: Outer) {
+  Outer.prototype.inner = proxied(Inner, 'inner', function(this: Outer) {
     t.is(i++, 0)
     this.innerObj.inner()
     t.is(i++, 2)
   })
 
   t.is(Outer.prototype.inner.name, Inner.prototype.inner.name)
-  t.is(
-    (Outer.prototype.inner as WrappedFunction).inner,
-    Inner.prototype.inner
-  )
+  t.is((Outer.prototype.inner as WrappedFunction).inner, Inner.prototype.inner)
 
   new Outer().inner()
 })

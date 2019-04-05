@@ -13,6 +13,7 @@
   },
   "license": "ISC",
   "author": "Emily Marigold Klassen <forivall@gmail.com>",
+  "main": "lib/index.js",
   "scripts": {
     "build": "tsc -p ./src/tsconfig.json",
     "clean": "rm -r lib || true",
