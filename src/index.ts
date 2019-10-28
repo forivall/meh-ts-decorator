@@ -17,11 +17,7 @@ export default function decorator<
   W extends <F extends (...args: any[]) => any>(fn: F, ...rest: any[]) => F
 >(wrapper: W): (...args: Rest1Type<W>) => TypedMethodDecorator {
   // tslint:disable-next-line: typedef
-  return (...args) => (
-    cls,
-    name,
-    descriptor,
-  ) => ({
+  return (...args) => (cls, name, descriptor) => ({
     ...descriptor,
     value: _wrap(wrapper, descriptor.value, args),
   })
