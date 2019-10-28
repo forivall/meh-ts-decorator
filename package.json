@@ -1,6 +1,6 @@
 {
   "name": "@forivall/decorator",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "description": "Simple function decorator/wrapping util, in typescript",
   "keywords": [],
   "homepage": "https://github.com/forivall/meh-ts-decorator",
