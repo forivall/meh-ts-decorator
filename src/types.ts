@@ -1,8 +1,8 @@
-export type Decorator = (
+export type TypedDecorator<T = any> = (
   cls: unknown,
   name: keyof any,
-  descriptor: PropertyDescriptor,
-) => PropertyDescriptor
+  descriptor: TypedPropertyDescriptor<T>,
+) => TypedPropertyDescriptor<T>
 
 export type WrappedFunction<
   F extends (...args: unknown[]) => unknown = (...args: unknown[]) => unknown
