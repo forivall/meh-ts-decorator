@@ -1,16 +1,21 @@
-import {TypedDecorator, Rest1Type, WrappedFunction} from './types'
+import {
+  GenericMethodDecorator,
+  Rest1Type,
+  TypedMethodDecorator,
+  WrappedFunction
+} from './types'
 
-export {TypedDecorator as Decorator, WrappedFunction}
+export {TypedMethodDecorator as Decorator, WrappedFunction}
 
 export default function decorator<
   F extends (...args: any[]) => any, A extends any[]
->(wrapper: (fn: F, ...rest: A) => F): (...args: A) => TypedDecorator<F>;
+>(wrapper: (fn: F, ...rest: A) => F): (...args: A) => TypedMethodDecorator<F>;
 export default function decorator<
   W extends <F extends (...args: any[]) => any>(fn: F, ...rest: any[]) => F
->(wrapper: W): (...args: Rest1Type<W>) => MethodDecorator;
+>(wrapper: W): (...args: Rest1Type<W>) => GenericMethodDecorator;
 export default function decorator<
   W extends <F extends (...args: any[]) => any>(fn: F, ...rest: any[]) => F
->(wrapper: W): (...args: Rest1Type<W>) => TypedDecorator {
+>(wrapper: W): (...args: Rest1Type<W>) => TypedMethodDecorator {
   // tslint:disable-next-line: typedef
   return (...args) => (
     cls,

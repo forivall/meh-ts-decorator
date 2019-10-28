@@ -1,8 +1,15 @@
-export type TypedDecorator<T = any> = (
+export type TypedMethodDecorator<T = any> = (
   cls: unknown,
-  name: keyof any,
+  name: string | symbol,
   descriptor: TypedPropertyDescriptor<T>,
 ) => TypedPropertyDescriptor<T>
+
+/** @extends {MethodDecorator} */
+export type GenericMethodDecorator = <T>(
+  cls: unknown,
+  name: string | symbol,
+  descriptor: TypedPropertyDescriptor<T>
+) => TypedPropertyDescriptor<T>;
 
 export type WrappedFunction<
   F extends (...args: unknown[]) => unknown = (...args: unknown[]) => unknown
