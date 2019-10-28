@@ -2,20 +2,20 @@ import {Decorator, Rest1Type, WrappedFunction} from './types'
 
 export {Decorator, WrappedFunction}
 
-// tslint:disable-next-line: no-any typedef
+export default function decorator<F extends (...args: any[]) => any, A extends any[]>(wrapper: (fn: F, ...rest: A) => F): (...args: A) => Decorator;
+export default function decorator<W extends <F extends (...args: any[]) => any>(fn: F, ...rest: any[]) => F>(wrapper: W): (...args: Rest1Type<W>) => Decorator;
 export default function decorator<
   W extends <F extends (...args: any[]) => any>(fn: F, ...rest: any[]) => F
->(wrapper: W) {
-  return (...args: Rest1Type<W>): Decorator => (
+>(wrapper: W): (...args: Rest1Type<W>) => Decorator {
+  // tslint:disable-next-line: typedef
+  return (...args) => (
     cls,
     name,
     descriptor,
-  ): PropertyDescriptor /* tslint:disable-line: no-unnecessary-type-annotation */ => {
-    return {
-      ...descriptor,
-      value: _wrap(wrapper, descriptor.value, args),
-    }
-  }
+  ) => ({
+    ...descriptor,
+    value: _wrap(wrapper, descriptor.value, args),
+  })
 }
 
 export function wrap<
