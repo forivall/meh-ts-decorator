@@ -47,7 +47,7 @@ function _wrap<
   const wrapped =
     wrapperArgs.length > 0 ? wrapper(inner, ...wrapperArgs) : wrapper(inner)
 
-  return wraps(inner, wrapped, wrapper.name)
+  return wraps(inner, wrapped, wrapper.name || wrapped.name)
 }
 
 const symRe = /^Symbol\((.*)\)$/
