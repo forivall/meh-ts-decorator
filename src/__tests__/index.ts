@@ -23,6 +23,24 @@ test('wraps', (t) => {
   wrapped()
 })
 
+test('wraps with no name', (t) => {
+  t.plan(4)
+
+  let i = 0
+  function inner() {
+    t.is(i++, 1)
+  }
+  const wrapped = wraps(inner, () => {
+    t.is(i++, 0)
+    inner()
+    t.is(i++, 2)
+  })
+
+  t.is(wrapped.name, 'inner (<wrapped>)')
+
+  wrapped()
+})
+
 test('wrap', (t) => {
   t.plan(4)
 
@@ -94,6 +112,35 @@ test('decorator', (t) => {
   }
 
   t.is(Inner.prototype.inner.name, 'inner (outer)')
+  t.is((Inner.prototype.inner as WrappedFunction).inner.name, 'inner')
+
+  const inst = new Inner()
+  inst.inner()
+  expectedInner = 3
+  ;(inst.inner as WrappedFunction).inner.call(inst)
+})
+
+test('decorator with inner name', (t) => {
+  t.plan(6)
+
+  let i = 0
+  const outerDecorator = decorator((fn: () => void) => {
+    return function testDecorator() {
+      t.is(i++, 0)
+      fn()
+      t.is(i++, 2)
+    }
+  })
+
+  let expectedInner = 1
+  class Inner {
+    @outerDecorator()
+    inner() {
+      t.is(i++, expectedInner)
+    }
+  }
+
+  t.is(Inner.prototype.inner.name, 'inner (testDecorator)')
   t.is((Inner.prototype.inner as WrappedFunction).inner.name, 'inner')
 
   const inst = new Inner()

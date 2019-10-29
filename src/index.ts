@@ -59,7 +59,9 @@ const symRe = /^Symbol\((.*)\)$/
 export function keyToName(name: keyof any): string {
   if (typeof name === 'symbol') {
     const symMatch = symRe.exec(name.toString())
-    return symMatch ? `[${symMatch[1]}]` : name.toString()
+    return symMatch
+      ? `[${symMatch[1]}]`
+      : /* istanbul ignore next */ name.toString()
   }
   return String(name)
 }
