@@ -97,8 +97,8 @@ export function keyToName(name: PropertyKey): string {
   target: {prototype: T},
   targetName?: N,
   wrappedName?: string,
-): KeyedMethodDecorator<N extends undefined ? string : Extract<N, string | symbol>> {
-  type P = N extends undefined ? string : Extract<N, string | symbol>;
+): KeyedMethodDecorator<N extends undefined ? Extract<keyof T, string | symbol> : string> {
+  type P = N extends undefined ? keyof T : string;
   return (ctor, propertyKey: P, descriptor): PropertyDescriptor => ({
     ...descriptor,
     value: proxied(

@@ -2,7 +2,7 @@
 
 import test from 'ava'
 
-import decorator, {WrappedFunction, keyToName, proxied, wrap, wraps} from '..'
+import decorator, {WrappedFunction, keyToName, proxied, wrap, wraps, proxies} from '..'
 
 test('wraps', (t) => {
   t.plan(4)
@@ -207,4 +207,58 @@ test('proxied', (t) => {
   t.is((Outer.prototype.inner as WrappedFunction).inner, Inner.prototype.inner)
 
   new Outer().inner()
+})
+
+test('proxies', (t) => {
+  t.plan(5)
+
+  let i = 0
+
+  class Inner {
+    inner() {
+      t.is(i++, 1)
+    }
+  }
+
+  class Outer {
+    innerObj = new Inner()
+    @proxies(Inner)
+    inner() {
+      t.is(i++, 0)
+      this.innerObj.inner()
+      t.is(i++, 2)
+    }
+  }
+
+  t.is(Outer.prototype.inner.name, Inner.prototype.inner.name)
+  t.is((Outer.prototype.inner as WrappedFunction).inner, Inner.prototype.inner)
+
+  new Outer().inner()
+})
+
+test('proxies other', (t) => {
+  t.plan(5)
+
+  let i = 0
+
+  class Inner {
+    inner() {
+      t.is(i++, 1)
+    }
+  }
+
+  class Outer {
+    innerObj = new Inner()
+    @proxies(Inner, 'inner')
+    outer() {
+      t.is(i++, 0)
+      this.innerObj.inner()
+      t.is(i++, 2)
+    }
+  }
+
+  t.is(Outer.prototype.outer.name, 'outer')
+  t.is((Outer.prototype.outer as WrappedFunction).inner, Inner.prototype.inner)
+
+  new Outer().outer()
 })
