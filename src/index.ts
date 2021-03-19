@@ -19,10 +19,10 @@ export default function decorator<
   W extends <F extends (...args: any[]) => any>(fn: F, ...rest: any[]) => F
 >(wrapper: W): (...args: Rest1Type<W>) => TypedMethodDecorator {
   // tslint:disable-next-line: typedef
-  return (...args) => (cls, name, descriptor) => ({
+  return wraps(wrapper, (...args) => (cls, name, descriptor) => ({
     ...descriptor,
     value: _wrap(wrapper, descriptor.value, args),
-  })
+  }))
 }
 
 // TODO: integrate https://github.com/jayphelps/core-decorators/blob/master/src/decorate.js
