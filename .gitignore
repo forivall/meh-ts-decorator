@@ -17,3 +17,6 @@ Thumbs.db
 *.cache
 .changelog
 .eslintcache
+
+# Typescript
+tsconfig.tsbuildinfo

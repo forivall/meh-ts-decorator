@@ -1,0 +1,5 @@
+**/*.map
+src/**/*.d.ts
+src/**/*.js
+lib/**
+node_modules/**

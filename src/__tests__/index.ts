@@ -1,5 +1,3 @@
-/* tslint:disable: typedef */
-
 import test from 'ava'
 
 import decorator, {WrappedFunction, keyToName, proxied, wrap, wraps, proxies} from '..'
@@ -124,13 +122,14 @@ test('decorator with inner name', (t) => {
   t.plan(6)
 
   let i = 0
-  const outerDecorator = decorator((fn: () => void) => {
-    return function testDecorator() {
-      t.is(i++, 0)
-      fn()
-      t.is(i++, 2)
-    }
-  })
+  const outerDecorator = decorator(
+    (fn: () => void) =>
+      function testDecorator() {
+        t.is(i++, 0)
+        fn()
+        t.is(i++, 2)
+      },
+  )
 
   let expectedInner = 1
   class Inner {
@@ -195,9 +194,9 @@ test('proxied', (t) => {
   class Outer {
     innerObj = new Inner()
   }
-  // tslint:disable-next-line: no-empty-interface
+
   interface Outer extends Inner {}
-  Outer.prototype.inner = proxied(Inner, 'inner', function(this: Outer) {
+  Outer.prototype.inner = proxied(Inner, 'inner', function (this: Outer) {
     t.is(i++, 0)
     this.innerObj.inner()
     t.is(i++, 2)

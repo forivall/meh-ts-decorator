@@ -4,7 +4,10 @@ export type TypedMethodDecorator<T = any> = (
   descriptor: TypedPropertyDescriptor<T>,
 ) => TypedPropertyDescriptor<T>
 
-export type KeyedMethodDecorator<N extends string | symbol, T = (...args: any) => any> = (
+export type KeyedMethodDecorator<
+  N extends string | symbol,
+  T = (...args: any) => any,
+> = (
   cls: unknown,
   name: N,
   descriptor: TypedPropertyDescriptor<T>,
@@ -14,12 +17,12 @@ export type KeyedMethodDecorator<N extends string | symbol, T = (...args: any) =
 export type GenericMethodDecorator = <T>(
   cls: unknown,
   name: string | symbol,
-  descriptor: TypedPropertyDescriptor<T>
-) => TypedPropertyDescriptor<T>;
+  descriptor: TypedPropertyDescriptor<T>,
+) => TypedPropertyDescriptor<T>
 
 export type WrappedFunction<
   F extends (...args: unknown[]) => unknown = (...args: unknown[]) => unknown,
-  G extends (...args: unknown[]) => unknown = F
+  G extends (...args: unknown[]) => unknown = F,
 > = F & {inner: G}
 // TODO: rename inner to a symbol called 'wrapped'. Next major release.
 
