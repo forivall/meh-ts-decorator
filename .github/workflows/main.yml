@@ -1,0 +1,21 @@
+name: test-ci
+
+on:
+  push:
+    branches: [latest]
+  pull_request:
+    branches: [latest]
+  workflow_dispatch:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v2.3.0
+        with:
+          node-version: lts/*
+      - run: npm run test-ci
+      - name: Send to coveralls
+        uses: coverallsapp/github-action@1.1.3
+
