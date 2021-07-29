@@ -2,7 +2,7 @@
 
 Simple function decorator/wrapping util, in typescript
 
-[![build status](https://secure.travis-ci.org/forivall/meh-ts-decorator.svg)](http://travis-ci.org/forivall/meh-ts-decorator)
+[![build status](https://github.com/forivall/meh-ts-decorator/actions/workflows/main.yml/badge.svg)](https://github.com/forivall/meh-ts-decorator/actions/workflows/main.yml)
 [![dependency status](https://david-dm.org/forivall/meh-ts-decorator.svg)](https://david-dm.org/forivall/meh-ts-decorator)
 [![coverage status](https://coveralls.io/repos/github/forivall/meh-ts-decorator/badge.svg)](https://coveralls.io/github/forivall/meh-ts-decorator)
 
