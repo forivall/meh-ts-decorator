@@ -27,7 +27,7 @@
     "test": "ava",
     "posttest": "npm run lint",
     "test-ci": "npm run test-cov",
-    "posttest-ci": "nyc report --reporter=text-lcov | coveralls",
+    "posttest-ci": "nyc report --reporter=text-lcov",
     "test-cov": "nyc ava",
     "posttest-cov": "npm run posttest"
   },
@@ -53,7 +53,6 @@
     "@istanbuljs/nyc-config-typescript": "^0.1.3",
     "@types/xo": "^0.39.1",
     "ava": "^3.15.0",
-    "coveralls": "^3.0.7",
     "eslint-config-prettier": "^8.3.0",
     "eslint-config-xo-typescript": "^0.43.0",
     "eslint-config-xo": "^0.37.0",
