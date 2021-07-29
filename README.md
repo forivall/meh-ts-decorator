@@ -6,6 +6,7 @@ Simple function decorator/wrapping util, in typescript
 [![dependency status](https://david-dm.org/forivall/meh-ts-decorator.svg)](https://david-dm.org/forivall/meh-ts-decorator)
 [![coverage status](https://coveralls.io/repos/github/forivall/meh-ts-decorator/badge.svg)](https://coveralls.io/github/forivall/meh-ts-decorator)
 [![npm version](https://img.shields.io/npm/v/@forivall/decorator)](https://npm.im/@forivall/decorator)
+[![bundle size](https://img.shields.io/bundlephobia/minzip/@forivall/decorator)](https://img.shields.io/bundlephobia/minzip/@forivall/decorator)
 
 ## Installation
 
