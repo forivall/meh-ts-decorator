@@ -3,10 +3,11 @@
 Simple function decorator/wrapping util, in typescript
 
 [![build status](https://github.com/forivall/meh-ts-decorator/actions/workflows/main.yml/badge.svg)](https://github.com/forivall/meh-ts-decorator/actions/workflows/main.yml)
-[![dependency status](https://david-dm.org/forivall/meh-ts-decorator.svg)](https://david-dm.org/forivall/meh-ts-decorator)
+[![dependency status](https://img.shields.io/david/forivall/meh-ts-decorator)](https://david-dm.org/forivall/meh-ts-decorator)
+[![dependency status](https://badges.depfu.com/badges/019638eb029618a184c44b4b8a9ebeef/count.svg)](https://depfu.com/github/forivall/meh-ts-decorator?project_id=29951)
 [![coverage status](https://coveralls.io/repos/github/forivall/meh-ts-decorator/badge.svg)](https://coveralls.io/github/forivall/meh-ts-decorator)
 [![npm version](https://img.shields.io/npm/v/@forivall/decorator)](https://npm.im/@forivall/decorator)
-[![bundle size](https://img.shields.io/bundlephobia/minzip/@forivall/decorator)](https://img.shields.io/bundlephobia/minzip/@forivall/decorator)
+[![bundle size](https://img.shields.io/bundlephobia/minzip/@forivall/decorator)](https://bundlephobia.com/package/@forivall/decorator)
 
 ## Installation
 
