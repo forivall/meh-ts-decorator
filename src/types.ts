@@ -1,5 +1,5 @@
 export type TypedMethodDecorator<T = any> = (
-  cls: unknown,
+  cls: ThisParameterType<T>,
   name: string | symbol,
   descriptor: TypedPropertyDescriptor<T>,
 ) => TypedPropertyDescriptor<T>
