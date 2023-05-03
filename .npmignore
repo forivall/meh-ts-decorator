@@ -18,3 +18,7 @@ Thumbs.db
 *.cache
 .changelog
 .eslintcache
+
+/.github
+/.nycrc
+/.xo-config.js
