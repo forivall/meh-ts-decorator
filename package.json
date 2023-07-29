@@ -57,7 +57,7 @@
     "eslint-config-prettier": "^8.3.0",
     "eslint-config-xo-typescript": "^0.43.0",
     "eslint-config-xo": "^0.37.0",
-    "eslint-plugin-import": "^2.25.4",
+    "eslint-plugin-import": "^2.28.0",
     "husky": "^3.1.0",
     "lint-staged": "^9.5.0",
     "nyc": "^14.1.1",
