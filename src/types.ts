@@ -1,30 +1,32 @@
-export type TypedMethodDecorator<T = any> = (
+import type {wrapped} from './wrap'
+
+export type TypedMethodDecorator<T> = (
   cls: ThisParameterType<T>,
   name: string | symbol,
   descriptor: TypedPropertyDescriptor<T>,
 ) => TypedPropertyDescriptor<T>
 
-export type KeyedMethodDecorator<
-  N extends string | symbol,
-  T = (...args: any) => any,
-> = (
+export type NamedTypedDecorator<N extends string | symbol, T = (...args: any) => any> = (
   cls: unknown,
   name: N,
   descriptor: TypedPropertyDescriptor<T>,
 ) => TypedPropertyDescriptor<T>
 
 /** @extends {MethodDecorator} */
-export type GenericMethodDecorator = <T>(
+export type GenericDecorator = <T>(
   cls: unknown,
   name: string | symbol,
   descriptor: TypedPropertyDescriptor<T>,
 ) => TypedPropertyDescriptor<T>
 
 export type WrappedFunction<
-  F extends (...args: unknown[]) => unknown = (...args: unknown[]) => unknown,
-  G extends (...args: unknown[]) => unknown = F,
-> = F & {inner: G}
-// TODO: rename inner to a symbol called 'wrapped'. Next major release.
+  Outer extends (...args: any) => any = (...args: unknown[]) => unknown,
+  Inner = Outer,
+> = Outer & {[wrapped]: Inner}
+
+export type WrappedValue<Outer, Inner = Outer> = Outer extends (...args: any) => any
+  ? WrappedFunction<Outer, Inner>
+  : Outer
 
 export type Rest1Type<T extends (a1: any, ...rest: any[]) => any> = T extends (
   a1: any,

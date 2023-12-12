@@ -1,6 +1,14 @@
 import test from 'ava'
 
-import decorator, {WrappedFunction, keyToName, proxied, wrap, wraps, proxies} from '..'
+import decorator, {
+  type WrappedFunction,
+  proxied,
+  wrap,
+  wraps,
+  wrapped,
+  proxies,
+} from '..'
+import {keyToName} from '../utils'
 
 test('wraps', (t) => {
   t.plan(4)
@@ -9,11 +17,13 @@ test('wraps', (t) => {
   function inner() {
     t.is(i++, 1)
   }
+
   function outer() {
     t.is(i++, 0)
     inner()
     t.is(i++, 2)
   }
+
   const wrapped = wraps(inner, outer, 'outer')
 
   t.is(wrapped.name, 'inner (outer)')
@@ -28,6 +38,7 @@ test('wraps with no name', (t) => {
   function inner() {
     t.is(i++, 1)
   }
+
   const wrapped = wraps(inner, () => {
     t.is(i++, 0)
     inner()
@@ -110,12 +121,12 @@ test('decorator', (t) => {
   }
 
   t.is(Inner.prototype.inner.name, 'inner (outer)')
-  t.is((Inner.prototype.inner as WrappedFunction).inner.name, 'inner')
+  t.is((Inner.prototype.inner as WrappedFunction)[wrapped].name, 'inner')
 
   const inst = new Inner()
   inst.inner()
   expectedInner = 3
-  ;(inst.inner as WrappedFunction).inner.call(inst)
+  ;(inst.inner as WrappedFunction)[wrapped].call(inst)
 })
 
 test('decorator with inner name', (t) => {
@@ -140,12 +151,12 @@ test('decorator with inner name', (t) => {
   }
 
   t.is(Inner.prototype.inner.name, 'inner (testDecorator)')
-  t.is((Inner.prototype.inner as WrappedFunction).inner.name, 'inner')
+  t.is((Inner.prototype.inner as WrappedFunction)[wrapped].name, 'inner')
 
   const inst = new Inner()
   inst.inner()
   expectedInner = 3
-  ;(inst.inner as WrappedFunction).inner.call(inst)
+  ;(inst.inner as WrappedFunction)[wrapped].call(inst)
 })
 
 test('decorator symbol', (t) => {
@@ -191,11 +202,13 @@ test('proxied', (t) => {
     }
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-declaration-merging
   class Outer {
     innerObj = new Inner()
   }
 
-  interface Outer extends Inner {}
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-declaration-merging
+  interface Outer extends Record<string, unknown>, Inner {}
   Outer.prototype.inner = proxied(Inner, 'inner', function (this: Outer) {
     t.is(i++, 0)
     this.innerObj.inner()
@@ -203,7 +216,7 @@ test('proxied', (t) => {
   })
 
   t.is(Outer.prototype.inner.name, Inner.prototype.inner.name)
-  t.is((Outer.prototype.inner as WrappedFunction).inner, Inner.prototype.inner)
+  t.is((Outer.prototype.inner as WrappedFunction)[wrapped], Inner.prototype.inner)
 
   new Outer().inner()
 })
@@ -230,7 +243,7 @@ test('proxies', (t) => {
   }
 
   t.is(Outer.prototype.inner.name, Inner.prototype.inner.name)
-  t.is((Outer.prototype.inner as WrappedFunction).inner, Inner.prototype.inner)
+  t.is((Outer.prototype.inner as WrappedFunction)[wrapped], Inner.prototype.inner)
 
   new Outer().inner()
 })
@@ -257,7 +270,7 @@ test('proxies other', (t) => {
   }
 
   t.is(Outer.prototype.outer.name, 'outer')
-  t.is((Outer.prototype.outer as WrappedFunction).inner, Inner.prototype.inner)
+  t.is((Outer.prototype.outer as WrappedFunction)[wrapped], Inner.prototype.inner)
 
   new Outer().outer()
 })
