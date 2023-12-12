@@ -18,6 +18,7 @@ module.exports = {
     eqeqeq: ['error', 'smart'],
     'ava/no-ignored-test-files': ['error', {files: ['src/**/__tests__/[^_]*.ts']}],
     '@typescript-eslint/prefer-nullish-coalescing': 'warn',
+    '@typescript-eslint/consistent-type-definitions': ['error', 'interface'],
     'unicorn/prevent-abbreviations': [
       'warn',
       ...xoPlugins.rules['unicorn/prevent-abbreviations'].slice(1),
@@ -30,6 +31,7 @@ module.exports = {
         ignorePattern: `${capitalizedCommentsConfig.ignorePattern}|empty\\s*$`,
       },
     ],
+    'import/extensions': ['error', 'never'],
     // custom
     'import/order': [
       'warn',
